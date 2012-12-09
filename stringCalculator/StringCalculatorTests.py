@@ -33,6 +33,15 @@ class StringCalculatorTest(unittest.TestCase):
     def testNegativeValuesMessage(self):
         self.assertRaisesRegexp(self.stringCalculator.NegativeNumbers,"^-1,-2$",self.stringCalculator.add,"-1,-2,3")
 
+    def testValuesOver1000(self):
+        self.assertEqual("1003",self.stringCalculator.add("1,2,1000,1001"))
+
+    def testMultipleCharDelimiter(self):
+        self.assertEqual("3",self.stringCalculator.add("//[**]\n1**2"))
+
+    def testMultipleCharMultipleDelimiter(self):
+        self.assertEqual("6",self.stringCalculator.add("//[**][perra]\n1**2perra3"))
+
     def tearDown(self):
         pass
 
