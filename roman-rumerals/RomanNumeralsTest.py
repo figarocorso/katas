@@ -31,6 +31,34 @@ class RomanNumeralsTest(unittest.TestCase):
         self.assertEqual("LXXX",self.romanNumerals.convert(80))
         self.assertEqual("XC",self.romanNumerals.convert(90))
 
+    def testHundredsConversion(self):
+        self.assertEqual("C",self.romanNumerals.convert(100))
+        self.assertEqual("CC",self.romanNumerals.convert(200))
+        self.assertEqual("CCC",self.romanNumerals.convert(300))
+        self.assertEqual("CD",self.romanNumerals.convert(400))
+        self.assertEqual("D",self.romanNumerals.convert(500))
+        self.assertEqual("DC",self.romanNumerals.convert(600))
+        self.assertEqual("DCC",self.romanNumerals.convert(700))
+        self.assertEqual("DCCC",self.romanNumerals.convert(800))
+        self.assertEqual("CM",self.romanNumerals.convert(900))
+
+    def testHundredsConversion(self):
+        self.assertEqual("M",self.romanNumerals.convert(1000))
+        self.assertEqual("MM",self.romanNumerals.convert(2000))
+        self.assertEqual("MMM",self.romanNumerals.convert(3000))
+
+    def testNumber(self):
+        self.assertEqual("MCMXC",self.romanNumerals.convert(1990))
+
+    def testNumber1999(self):
+        self.assertEqual("MCMXCIX",self.romanNumerals.convert(1999))
+
+    def testDigit8(self):
+        self.assertEqual(8,self.romanNumerals.convert("VIII"))
+
+    def testDigit1999(self):
+        self.assertEqual(1999,self.romanNumerals.convert("MCMXCIX"))
+
     def tearDown(self):
         pass
 
