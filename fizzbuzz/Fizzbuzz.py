@@ -24,8 +24,14 @@ class Fizzbuzz():
         return self
 
     def dividedBy3(self):
-        return self.number % 3 == 0
+        return self.number % 3 == 0 or self.containsNumber(3)
 
     def dividedBy5(self):
-        return self.number % 5 == 0
+        return self.number % 5 == 0 or self.containsNumber(5)
+
+    def containsNumber(self,numberContained):
+        for digit in str(self.number):
+            if digit == str(numberContained):
+                return True
+        return False
 

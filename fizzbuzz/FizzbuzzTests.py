@@ -17,6 +17,10 @@ class FizzbuzzTests(unittest.TestCase):
 
     def testAsk15(self):
         self.assertEqual("FizzBuzz",self.fizzbuzz.answerQuestion(15))
+
+    def testAsk35(self):
+        self.assertEqual("FizzBuzz",self.fizzbuzz.answerQuestion(35))
+
     def testPrintAll(self):
         for number in range(1,100):
             print self.fizzbuzz.answerQuestion(number)
