@@ -1,4 +1,5 @@
 class Fizzbuzz():
+
     def __init__(self):
         pass
 
