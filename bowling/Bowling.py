@@ -9,37 +9,41 @@ class Bowling():
         self.throwNumberInRow = 1
         self.row = [0,0]
         self.rowPoints = 0
-        self.spareMultiplier = 0
-        self.strikeMultiplier = 0
+        self.multiplierWindow = [1,1]
+        self.itHasBeenSpecial = False
+        self.throw = ""
 
     def calculateRoll(self,throws):
         for throw in throws:
-            self.nextTrow(throw).checkSpare().addPoints()
+            self.nextTrow(throw).checkSpecialRow().addPoints()
 
         return self.rollResult
 
     def nextTrow(self,throw):
+        self.throw = throw
         self.nextThrowInRow()
         if self.isFirstThrow():
             self.rowPoints = 0
         self.row[self.throwNumberInRow] = throw
         return self
 
-    def checkSpare(self):
-        if self.isSpare():
-            self.addSpare()
+    def checkSpecialRow(self):
+        if self.isSpecialThrow():
+            self.addSpecialRow()
+            self.itHasBeenSpecial = True
         return self
 
-    def addSpare(self):
+    def addSpecialRow(self):
         if self.isFirstThrow():
             self.nextThrowInRow()
-
         self.rowPoints = 10
+
+    def isSpecialThrow(self):
+        return self.isSpare() or self.isStrike()
 
     def addPoints(self):
         if not self.isFirstThrow():
-            self.calculateRowPoints()
-            self.addStrikeSpareBonus()
+            self.calculateRowPoints().strikeSpareBonus()
             self.rollResult += self.rowPoints
         return self
 
@@ -47,6 +51,7 @@ class Bowling():
         if self.normalThrow():
             self.rowPoints = self.addThrow(self.row[self.firstThrow])
             self.rowPoints += self.addThrow(self.row[self.secondThrow])
+        return self
 
     def addThrow(self,throw):
         if self.missed(throw):
@@ -54,9 +59,27 @@ class Bowling():
         else:
             return int(throw)
 
+    def strikeSpareBonus(self):
+        self.addStrikeSpareBonus().updateMultipliers()
 
     def addStrikeSpareBonus(self):
-            pass
+        self.rowPoints *= self.multipliersPending()
+        return self
+
+    def multipliersPending(self):
+        return self.multiplierWindow[0]
+
+    def updateMultipliers(self):
+        self.rotateMultipliers()
+        if self.itHasBeenSpecial:
+            self.itHasBeenSpecial = False
+            self.multiplierWindow[0] += 1
+            if self.isStrike():
+                self.multiplierWindow[1] += 1
+
+    def rotateMultipliers(self):
+        self.multiplierWindow[0] = self.multiplierWindow[1]
+        self.multiplierWindow[1] = 1
 
     def nextThrowInRow(self):
         self.throwNumberInRow = (self.throwNumberInRow + 1) % 2
@@ -64,8 +87,11 @@ class Bowling():
     def isFirstThrow(self):
         return self.throwNumberInRow == self.firstThrow
 
+    def isStrike(self):
+        return self.throw == "X"
+
     def isSpare(self):
-        return self.row[self.throwNumberInRow] == "/"
+        return self.throw == "/"
 
     def normalThrow(self):
         return self.rowPoints == 0
