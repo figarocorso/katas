@@ -1,6 +1,7 @@
-# Primero un dicionario "-":0, ...
-# Add el concepto de row
-
+# First: Introduced a dictionary "-":0, ....
+# Secondly: Introduced the concept of row
+# Abandoned because of a rule missunderstanding
+# Abandoned because of unfixeable problem with last throws
 class Bowling():
     def __init__(self):
         self.firstThrow = 0
@@ -45,6 +46,7 @@ class Bowling():
         if not self.isFirstThrow():
             self.calculateRowPoints().strikeSpareBonus()
             self.rollResult += self.rowPoints
+            print "Throw = " + self.throw + " - " + str(self.rowPoints)
         return self
 
     def calculateRowPoints(self):
@@ -60,7 +62,9 @@ class Bowling():
             return int(throw)
 
     def strikeSpareBonus(self):
+        print "Pre: " + str(self.multiplierWindow)
         self.addStrikeSpareBonus().updateMultipliers()
+        print "Post: " + str(self.multiplierWindow)
 
     def addStrikeSpareBonus(self):
         self.rowPoints *= self.multipliersPending()
