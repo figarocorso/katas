@@ -39,7 +39,7 @@ class BowlingV2:
         self.calculatedRoll.insert(0,0)
 
     def calculateSpare(self,throwNumber):
-        self.translatedRoll.insert(0, 10 - self.lastThrowValue(throwNumber))
+        self.translatedRoll.insert(0, 10 - self.previousThrowValue(throwNumber))
         self.calculatedRoll.insert(0, self.translatedRoll[0] + self.translatedRoll[1])
         self.correctLastThrowValue()
 
@@ -65,5 +65,5 @@ class BowlingV2:
     def lastTwoThrows(self):
         return len(self.calculatedRoll) < 2
 
-    def lastThrowValue(self, currentThrow):
+    def previousThrowValue(self, currentThrow):
         return int(self.initialRoll[currentThrow - 1])
