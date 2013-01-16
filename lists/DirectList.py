@@ -22,6 +22,20 @@ class DirectList():
 
         return node.value
 
+    def delete(self, key):
+        self.previous_node = self.first_node
+        self.current_node = self.first_node.next_node
+
+        while not self.is_last_node(self.current_node):
+            if self.current_node.key == key:
+                self.previous_node.next_node = self.current_node.next_node
+                return True
+
+            self.current_node = self.current_node.next_node
+            self.previous_node = self.previous_node.next_node
+
+        return False
+
     def find(self, key):
         self.current_node = self.first_node
 
