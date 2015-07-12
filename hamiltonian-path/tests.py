@@ -4,7 +4,7 @@ import unittest
 
 class HamiltonianTest(unittest.TestCase):
     def setUp(self):
-        self.square_graph = [[1], [2], [3], [0]]
+        self.square_graph = [[1, 3], [2, 0], [3, 1], [0, 2]]
         self.square = HamiltonianPath(self.square_graph)
 
     def testSmallGraphs(self):
@@ -19,11 +19,19 @@ class HamiltonianTest(unittest.TestCase):
 
     def testGraphWalk(self):
         self.assertTrue(self.square.graph_walk([0, 1, 2, 3]))
+        self.assertTrue(self.square.graph_walk([0, 3, 2, 1]))
         self.assertFalse(self.square.graph_walk([1, 2, 0, 3]))
         self.assertFalse(self.square.graph_walk([0, 1, 2]))
 
     def testPathGeneration(self):
-        self.assertEqual([[0, 1, 2, 3]], self.square.generate_paths(0))
+        self.assertEqual(8, len(self.square.generate_paths()))
+        self.assertTrue([0, 1, 2, 3] in self.square.generate_paths())
+
+    def testPathsAndCycles(self):
+        generated_paths = self.square.generate_paths()
+        (paths, cycles) = self.square.paths_and_cycles(generated_paths)
+        self.assertEqual(8, len(paths))
+        self.assertEqual(8, len(cycles))
 
     def tearDown(self):
         pass
