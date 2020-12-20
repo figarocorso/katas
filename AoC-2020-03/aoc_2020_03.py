@@ -38,7 +38,6 @@ class Topology():
     def current_position(self):
         return self.current_x + self.current_y * self.width
 
-
     def count_trees_during_slope_down(self, slope):
         trees = 0
         while not self.is_finished:

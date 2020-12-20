@@ -59,7 +59,6 @@ class PasswordPolicyCheckerTest(unittest.TestCase):
         ]
         self.assertEqual(0, self.ppc.count_correct_passwords(policies_and_passwords))
 
-
     def test_password_class(self):
         self.assertEqual('cdefg', str(Password('1-3 b: cdefg')))
 
