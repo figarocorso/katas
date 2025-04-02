@@ -55,6 +55,24 @@ $ book 102 2030-01-01 2030-01-03
 Your booking is confirmed
 ```
 
+### Clever bookings
+* We have discovered people just want a room for a time range. Let's do that. Client should ask the server for the available rooms and create a booking for a room following these constraints:
+  * We cannot book 10th floor suites
+  * If possible we don't book 1st floor rooms
+  * For the rest of the floors we try to fill the hotel getting paired occupation for every floor (when in tie, let's fill the hotel from botton to top)
+```
+$ book 2030-01-01 2030-01-03
+# Internally we run "book 201 2030-01-01 2030-01-03"
+Your booking is confirmed
+```
+* We have discovered that this aproach is costing us a lot in getting cleaning service from one room to a different one. Let's fill the hotel from bottom to top.
+```
+$ book 2030-01-01 2030-01-03
+# Internally we run "book 102 2030-01-01 2030-01-03"
+Your booking is confirmed
+```
+* It looks we are not that clever anymore. What a surprise! Let's just random book a room so hotel keeps balanced.
+
 ## Server side kata
 
 ### Retrieve the list of available rooms
@@ -103,5 +121,5 @@ The more we understand users, the best service we can provide, let's support two
 * Date rages should honor same limitations as before
 ```
 list_bookings("2025-01-01", "2025-12-31")
-[{"room": 101, "start_date": }]
+[{"room": 101, "start_date": "2025-01-06", "end_date": "2025-01-07", "days_from_booking": 86}, ...]
 ```
