@@ -8,9 +8,7 @@ Because we have read couple of books we want to create a client side process and
 
 ## Client side kata
 
-### Problem description
-
-#### Retrieve the list of available rooms
+### Retrieve the list of available rooms
 * Create a program that prints the list of available rooms (our server side service is returning a unordered array/list) in a comma-separated format:
 ```
 $ list
@@ -24,6 +22,8 @@ $ list
 503, 510
 1001
 ```
+
+### Book a room
 * This is great. Time for bookings. The user should be able to introduce the number of the room to book, and we should be able to ask our server side service for that reservation (server side service is answering with a boolean if the booking was succesful or not)
 ```
 $ book 101
@@ -38,8 +38,11 @@ Sorry, there was a problem during the booking. These are the rooms currently ava
 503, 510
 1001
 ```
+
+### Book a room for a selected time range
 * It is time for introduccing dates for the booking:
   * Dates should be in the future
+  * It is mandatory that there are two dates
   * First date should be earlier than the second date
   * The date format should always be YYYY-MM-DD
 ```
@@ -50,4 +53,55 @@ $ list 2030-01-01 2030-01-03
 1001
 $ book 102 2030-01-01 2030-01-03
 Your booking is confirmed
+```
+
+## Server side kata
+
+### Retrieve the list of available rooms
+* First task is simply enough to return the list of available rooms
+```
+list()
+[101, 102, 301]
+```
+
+### Book a room
+* From the list of avilable rooms we need to remove those that have been booked. For that, we need to support the ability to book a room. We need to return a boolean depending if the booking was successful or not on our end
+  * Book number should be an integer
+```
+list()
+[101, 102, 301]
+book(101)
+true
+list()
+[102, 301]
+book(101)
+false
+```
+
+### Book a room for a selected time range
+* Every backend service loves dealing with dates and timezones, let's introduce the concept of booking a room for a specific time
+  * The list of available rooms now will depend on the dates queried
+  * The booking now has to have a initial date and and end date for each room reservation
+  * We cannot book a room in the past
+  * Initial date should be earlier than end date
+  * We cannot book a room that has colliding date ranges
+  * But we can book a room with two bookings, the first finishing on the day the second booking starts
+```
+list("2030-01-01", "2030-01-03")
+[101, 102, 301]
+book(101, "2030-01-01", "2030-01-03")
+true
+```
+
+### Block rooms with maintenance works
+* Sometimes a room has no booking, but we cannot list that room as available
+
+### Bussiness metrics
+The more we understand users, the best service we can provide, let's support two queries:
+* Return all the bookings starting between two dates
+* Return all the bookings starting between two dates, including how many days in advance the booking was made
+* Date rages should honor same limitations as before
+```
+list_bookings("2025-01-01", "2025-12-31")
+[{"room": 101, "start_date": }]
 ```
