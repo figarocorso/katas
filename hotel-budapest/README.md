@@ -24,3 +24,30 @@ $ list
 503, 510
 1001
 ```
+* This is great. Time for bookings. The user should be able to introduce the number of the room to book, and we should be able to ask our server side service for that reservation (server side service is answering with a boolean if the booking was succesful or not)
+```
+$ book 101
+Your booking is confirmed
+```
+* If there was a problem during the booking process we should show an error message and list available rooms
+```
+$ book 101
+Sorry, there was a problem during the booking. These are the rooms currently available:
+102, 105
+201, 202
+503, 510
+1001
+```
+* It is time for introduccing dates for the booking:
+  * Dates should be in the future
+  * First date should be earlier than the second date
+  * The date format should always be YYYY-MM-DD
+```
+$ list 2030-01-01 2030-01-03
+102, 105
+201, 202
+503, 510
+1001
+$ book 102 2030-01-01 2030-01-03
+Your booking is confirmed
+```
